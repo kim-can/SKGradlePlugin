@@ -33,4 +33,4 @@ publish {
     website = 'https://github.com/skyJinc/SkPlugIn'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
 
-//gradle clean build bintrayUpload -PbintrayUser=skyjinc -PbintrayKey=***** -PdryRun=false  7700ef80ffe580ab3577854faab6a8398ac265ee
+//gradle clean build bintrayUpload -PbintrayUser=skyjinc -PbintrayKey=***** -PdryRun=false 
