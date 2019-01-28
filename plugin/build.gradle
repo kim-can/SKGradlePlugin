@@ -1,0 +1,36 @@
+apply plugin: 'groovy'//导入java插件用于，编译打包我们的插件
+apply plugin: 'maven'//maven插件，用于上传插件到仓库
+apply plugin: 'com.novoda.bintray-release'//添加
+//apply plugin: 'sky.module.plugin'
+//uploadArchives 类型是upload，这个task不是'maven'创建的
+//而是'maven'定义了一个rule,而后由我们自己创建的，关于rule，请看后面内容
+uploadArchives{
+    //本地仓库的一种
+    repositories{
+
+        mavenDeployer{
+            repository(url: uri('/Users/sky/GitHub/SkPlugIn/plugin/plugin/libs'))
+        }
+    }
+}
+group = "sk"//project属性
+version = "4.0.0"//project属性
+dependencies {
+    //导入Gradle的api，要写插件，肯定要使用Gradle的api
+    implementation gradleApi()
+
+    //groovy sdk
+    implementation localGroovy()
+}
+
+//添加
+publish {
+    userOrg = 'skyjinc'//bintray.com用户名
+    groupId = 'sk'//jcenter上的路径
+    artifactId = 'plugin'//项目名称
+    publishVersion = '4.0.0'//版本号
+    desc = 'SK组件化-module gradle 插件'//描述，不重要
+    website = 'https://github.com/skyJinc/SkPlugIn'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+}
+
+//gradle clean build bintrayUpload -PbintrayUser=skyjinc -PbintrayKey=***** -PdryRun=false  7700ef80ffe580ab3577854faab6a8398ac265ee
