@@ -23,8 +23,8 @@ class SkPlugin implements Plugin<Project> {
             throw new RuntimeException("you module name is not module_*** and cpt_***  not like this")
         }
 
-        String resourcePrefixS = moduleSplit[0] + "_"
-        boolean  isCPT =  moduleSplit[0].equals("cpt") || moduleSplit[0].equals("CPT")
+        String resourcePrefixS = moduleSplit[moduleSplit.length - 1] + "_"
+        boolean isCPT = moduleSplit[0].equals("cpt") || moduleSplit[0].equals("CPT")
         System.out.println("resourcePrefixS is " + resourcePrefixS)
 
         if (!project.hasProperty("isRunAlone")) {
@@ -50,7 +50,7 @@ class SkPlugin implements Plugin<Project> {
                     manifest.srcFile 'src/main/module/AndroidManifest.xml'
                 }
             }
-            if(!isCPT){
+            if (!isCPT) {
                 project.android.resourcePrefix resourcePrefixS
             }
         } else {
@@ -66,7 +66,7 @@ class SkPlugin implements Plugin<Project> {
                     }
                 }
             }
-            if(!isCPT){
+            if (!isCPT) {
                 project.android.resourcePrefix resourcePrefixS
             }
         }
