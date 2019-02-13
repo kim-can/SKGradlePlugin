@@ -17,12 +17,14 @@ class SkPlugin implements Plugin<Project> {
         String module = project.path.replace(":", "")
         System.out.println("current module is " + module)
 
-        int moduleLength = module.split("_").length
+        String[] moduleSplit = module.split("_")
+        int moduleLength = moduleSplit.length
         if (moduleLength < 2) {
             throw new RuntimeException("you module name is not module_*** and cpt_***  not like this")
         }
 
-        String resourcePrefixS = module.split("_")[moduleLength - 1] + "_"
+        String resourcePrefixS = moduleSplit[0] + "_"
+        boolean  isCPT =  moduleSplit[0].equals("cpt") || moduleSplit[0].equals("CPT")
         System.out.println("resourcePrefixS is " + resourcePrefixS)
 
         if (!project.hasProperty("isRunAlone")) {
@@ -37,6 +39,7 @@ class SkPlugin implements Plugin<Project> {
         String skVersion = String.valueOf(project.properties.get("skVersion"))
         System.out.println("isRunAlone 参数是:" + isRunAlone)
         System.out.println("skVersion 参数是:" + skVersion)
+        System.out.println("isCPT 参数是:" + isCPT)
 
         if (isRunAlone) {
             project.apply plugin: 'com.android.application'
@@ -47,8 +50,9 @@ class SkPlugin implements Plugin<Project> {
                     manifest.srcFile 'src/main/module/AndroidManifest.xml'
                 }
             }
-            project.android.resourcePrefix resourcePrefixS
-
+            if(!isCPT){
+                project.android.resourcePrefix resourcePrefixS
+            }
         } else {
             project.apply plugin: 'com.android.library'
             System.out.println("apply plugin is " + 'com.android.library')
@@ -62,7 +66,9 @@ class SkPlugin implements Plugin<Project> {
                     }
                 }
             }
-            project.android.resourcePrefix resourcePrefixS
+            if(!isCPT){
+                project.android.resourcePrefix resourcePrefixS
+            }
         }
 
         project.android.defaultConfig.javaCompileOptions.annotationProcessorOptions {
